@@ -15,6 +15,8 @@ DEST_S3_URL = "https://{bucketName}.s3.ap-northeast-2.amazonaws.com/{keyName}?t=
 
 kNORMALCARTOON = "cartoon-lite"
 
+TYPE_LITE = 1
+TYPE_BASIC = 2
 #
 # ''' get the hash value for an image '''
 #
@@ -34,6 +36,7 @@ def lambda_handler(event, context):
 
     print("[DEBUG] event = {}".format(event))
 
+    renderType = event.get("type", 1)
     src_filename =event.get("name", None)
     filename_set = os.path.splitext(src_filename)
     basename = filename_set[0]
@@ -44,14 +47,22 @@ def lambda_handler(event, context):
     # local files
     #
     down_filename='/tmp/my_image{}'.format(ext)
-    conv_filename='/tmp/normal_cartoon{}'.format(ext)
-    down_jsonfile='/tmp/normal_cartoon.json'
+    conv_filename='/tmp/cartoon_lite{}'.format(ext)
+    down_jsonfile='/tmp/cartoon_lite.json'
 
     #
     # S3 files
     #
-    s3_filename='public/{}/normal-cartoon{}'.format(h, ext)
-    s3_paramfile='public/{}/normal-cartoon.json'.format(h) 
+    s3_filename='public/{hash}/cartoon-lite{type}{ext}'.format(
+        hash = h,
+        type = renderType,
+        ext  = ext
+    )
+
+    s3_paramfile='public/{hash}/cartoon-lite{type}.json'.format(
+        hash = h,
+        type = renderType
+    ) 
 
     if os.path.exists(down_filename):
         os.remove(down_filename)
@@ -76,8 +87,13 @@ def lambda_handler(event, context):
         else:
             raise
 
-    output = render_cartoon.render_lite(down_filename)
+    if renderType == TYPE_LITE:
+        output = render_cartoon.render_lite(down_filename)
+    else:
+        output = render_cartoon.render_basic(down_filename)
+
     cv2.imwrite(conv_filename, output)
+
 
     #
     # Upload the converion image to S3

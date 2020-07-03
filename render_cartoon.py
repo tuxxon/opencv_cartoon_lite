@@ -4,7 +4,7 @@ import numpy as np
 
 def render_basic(img_path):
 
-    img = cv2.imread("trump_moon.jpg")
+    img = cv2.imread(img_path)
 
     # 1) Edges
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -32,9 +32,9 @@ def render_basic(img_path):
 #
 #  Render a normal toon with a image.
 #
-def render_lite(img_rgb): 
+def render_lite(img_path): 
 
-        img_rgb = cv2.imread(img_rgb) 
+        img_rgb = cv2.imread(img_path) 
         img_rgb = cv2.resize(img_rgb, (1366,768)) 
         numDownSamples = 2       # number of downscaling steps 
         numBilateralFilters = 50  # number of bilateral filtering steps 
