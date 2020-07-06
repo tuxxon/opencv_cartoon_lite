@@ -81,7 +81,7 @@ def lambda_handler(event, context):
             raise
 
 
-    output = render_cartoon.render_lite(down_filename)
+    output = render_cartoon.render_lite(down_filename, blockSize, C)
     cv2.imwrite(conv_filename, output)
 
     #
