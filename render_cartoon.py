@@ -34,9 +34,9 @@ def render_basic(img_path, blockSize=9, C=7):
 
 #
 #  Render a normal toon with a image.
-#  default : blockSize = 9, C = 2
+#  default : blockSize = 3, C = 2
 #
-def render_lite(img_path, blockSize=9, C=2):
+def render_lite(img_path, blockSize=3, C=2):
 
         img_rgb = cv2.imread(img_path) 
         img_rgb = cv2.resize(img_rgb, (1366,768)) 

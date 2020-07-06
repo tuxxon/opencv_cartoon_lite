@@ -40,7 +40,7 @@ def lambda_handler(event, context):
     ext = filename_set[1]
     h = basename.split("/")[1]
 
-    blockSize = event.get("blocksize", 9)
+    blockSize = event.get("blocksize", 3)
     C = event.get("paramC", 2)
     change_fullimage = event.get("blocksize", False)
 
